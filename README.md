@@ -19,9 +19,13 @@ La Ia se uso principalmente para la estructura de la app y el html, despues se u
 Sigue estos pasos para correr la app en tu máquina:
 1. Clona este repositorio:
    git clone https://github.com/AuroraIMC/tareas_IA_Aurora_Matamoros/new/master?filename=README.md
+   
 cd tareas_IA_Aurora_MAtamoros
-2.  se activa el entorno virtual
+
+3.  se activa el entorno virtual
+
    venv\Scripts\activate
-3. iniciasr la app
+6. iniciasr la app
+
    python app.py
 
