@@ -25,7 +25,9 @@ cd tareas_IA_Aurora_MAtamoros
 3.  se activa el entorno virtual
 
    venv\Scripts\activate
-6. iniciasr la app
+
+
+4. iniciasr la app
 
    python app.py
 
