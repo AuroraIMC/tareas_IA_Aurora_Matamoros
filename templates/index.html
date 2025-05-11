@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Tareas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h1 class="mb-5 text-center">Gestor de Tareas</h1>
+
+    <div class="row">
+        <!-- Columna izquierda: formulario -->
+        <div class="col-md-6 mb-4">
+            <div class="card p-4 shadow">
+                <h4 class="mb-3">Agregar Nueva Tarea</h4>
+                <form action="/agregar" method="post">
+                    <div class="mb-3">
+                        <input type="text" name="titulo" class="form-control" placeholder="Título de la tarea" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="descripcion" class="form-control" placeholder="Descripción (opcional)"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="estado" class="form-select">
+                            <option value="pendiente">Pendiente</option>
+                            <option value="en proceso">En proceso</option>
+                            <option value="completada">Completada</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha de vencimiento</label>
+                        <input type="date" name="fecha_vencimiento" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Agregar tarea</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Columna derecha: lista de tareas -->
+        <div class="col-md-6">
+            <h4 class="mb-3">Tareas Existentes</h4>
+
+            {% for tarea in tareas %}
+                <div class="card mb-3 shadow-sm border-start border-4 
+                    {% if tarea.estado == 'completada' %}
+                        border-success
+                    {% elif tarea.estado == 'en proceso' %}
+                        border-warning
+                    {% else %}
+                        border-secondary
+                    {% endif %}
+                ">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tarea.titulo }}</h5>
+                        {% if tarea.descripcion %}
+                            <p class="card-text">{{ tarea.descripcion }}</p>
+                        {% endif %}
+                        <p class="card-text mb-2">
+                            <span class="badge 
+                                {% if tarea.estado == 'completada' %}
+                                    bg-success
+                                {% elif tarea.estado == 'en proceso' %}
+                                    bg-warning text-dark
+                                {% else %}
+                                    bg-secondary
+                                {% endif %}
+                            ">
+                                {{ tarea.estado | capitalize }}
+                            </span><br>
+                            {% if tarea.fecha_vencimiento %}
+                                <small class="text-muted">Vence: {{ tarea.fecha_vencimiento.strftime('%d/%m/%Y') }}</small>
+                            {% endif %}
+                        </p>
+                        <a href="/editar/{{ tarea.id }}" class="btn btn-sm btn-outline-warning">✏️ Editar</a>
+                        <a href="/eliminar/{{ tarea.id }}" class="btn btn-sm btn-outline-danger">❌ Eliminar</a>
+                        {% if tarea.estado != 'completada' %}
+                        <a href="/marcar_completada/{{ tarea.id }}" class="btn btn-sm btn-outline-success">✔ Completada</a>
+                        {% endif %}
+                        {% if tarea.estado != 'en proceso' %}
+                        <a href="/marcar_en_proceso/{{ tarea.id }}" class="btn btn-sm btn-outline-primary">🔄 En proceso</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-muted">No hay tareas registradas.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
